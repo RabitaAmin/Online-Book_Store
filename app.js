@@ -10,17 +10,21 @@ const myRoutes = require("./routes/Auth");
 const bookRoutes = require("./routes/book");
 const userRoutes = require("./routes/user");
 const cartRoutes = require("./routes/cart");
+const validateJSON = require("./middleware/auth");
 app.use(express.json());
 app.use(express.text());
 app.use(express.urlencoded({ extended: true }));
-app.use(session({
-    secret: 'hello', // Change this to a secure secret
-    resave: false,
-    saveUninitialized: true,
-    // Additional options if needed
-    // cookie: { secure: true }, // Use for HTTPS-only cookies (requires HTTPS)
-    // store: sessionStore, // Use a specific session store (e.g., Redis, MongoDB)
-}));
+//app.use(validateJSON.validateJSON);
+app.use((err, req, res, next) => {
+    if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+        return sendResponse(
+            res,
+            HTTP_STATUS.UNPROCESSABLE_ENTITY,
+            'Invalid JSON provided'
+        );
+    }
+    next();
+});
 app.use("/auth", myRoutes);
 app.use("/book", bookRoutes);
 app.use("/user", userRoutes);

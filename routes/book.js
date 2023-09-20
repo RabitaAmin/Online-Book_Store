@@ -9,10 +9,10 @@ routes.post("/addBook", auth.isRole, validation.create, adminController.addBook)
 routes.delete("/deleteBook/:id", auth.isRole, adminController.deleteBook);
 routes.get("/viewUser", auth.isRole, validator.validatePage, adminController.viewUserData);
 routes.delete("/deleteUser", auth.isRole, auth.isSuper, adminController.deleteUser);
-routes.post("/updateBook", auth.isRole, adminController.updateBook);
-routes.post("/updateUser", auth.auth, adminController.updateUser);
-routes.post("/addDiscount", auth.auth, adminController.addDiscount);
-routes.post("/updateDiscount", auth.auth, adminController.updateDiscount);
+routes.post("/updateBook", auth.isRole, validation.updateBook, adminController.updateBook);
+routes.post("/updateUser", auth.auth, validation.updateUser, adminController.updateUser);
+routes.post("/addDiscount", auth.auth, validation.addDiscount, adminController.addDiscount);
+routes.patch("/updateDiscount", auth.auth, validation.updateDiscount, adminController.updateDiscount);
 routes.get("/viewAllTransaction", auth.auth, auth.isRole, auth.isSuper, adminController.viewAllTransaction);
-routes.post("/updateProfile", auth.auth, adminController.updateProfile);
+routes.post("/updateProfile", auth.auth, validation.updateProfile, adminController.updateProfile);
 module.exports = routes;
