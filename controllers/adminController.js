@@ -47,6 +47,7 @@ class admin {
                 return sendResponse(res, HTTP_STATUS.NOT_FOUND, "This book is not available!");
             }
             await bookModel.deleteOne({ _id: id });
+            await reviewModel.deleteMany({ bookId: id });
             return sendResponse(res, HTTP_STATUS.OK, "Book has been deleted successfully");
 
         } catch (error) {
