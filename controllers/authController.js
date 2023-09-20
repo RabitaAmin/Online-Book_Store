@@ -6,6 +6,7 @@ const userModel = require("../models/users");
 // const mangaModel = require("../models/products")
 const authModel = require("../models/auth")
 const bookModel = require("../models/book")
+const reviewModel = require("../models/review")
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const HTTP_STATUS = require("../constants/statusCode");
@@ -164,6 +165,19 @@ class Auth {
         } catch (error) {
             console.log(error);
             return sendResponse(res, HTTP_STATUS.INTERNAL_SERVER_ERROR, "internal Server Error!");
+        }
+    }
+    async findAllReview(req, res) {
+        try {
+            const { bookId } = req.query
+            const findAllReview = await reviewModel.find({ bookId: bookId })
+            if (findAllReview.length == 0) {
+                return sendResponse(res, HTTP_STATUS.NOT_FOUND, "No record found!");
+            }
+            return sendResponse(res, HTTP_STATUS.OK, "Review fetched Successfully", findAllReview)
+        } catch (error) {
+            console.log(error);
+            return sendResponse(res, HTTP_STATUS.INTERNAL_SERVER_ERROR, "Internal Server Error!");
         }
     }
     async url(req, res) {

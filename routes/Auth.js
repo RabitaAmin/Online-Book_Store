@@ -9,6 +9,7 @@ const validation = require("../middleware/validation");
 routes.post("/signup", validation.signup, authController.auth);
 routes.post("/login", authController.login);
 routes.get("/getAll", authController.getAll);
+routes.get("/findAllReview", authController.findAllReview);
 routes.use("*", authController.url);
 
 module.exports = routes;
